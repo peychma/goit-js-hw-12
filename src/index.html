@@ -4,21 +4,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+    <title>Hw 12</title>
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <load ="partials/header.html" />
-
     <section>
-      <h1>Lorem ipsum dolor sit amet.</h1>
-      <!-- Path to images as from index.html file -->
-      <img src="./img/javascript.svg" alt="" />
+    <form class="gallery-form" id="gallery-form">
+    <input class="input" id="name" type="text" placeholder="Search images..." />
+    <button class="button" type="submit">Search</button>
+    </form>
     </section>
-
-    <!-- Loads the specified .html file -->
-    <load ="partials/vite-promo.html" />
-
+    <ul class="gallery"></ul>
+    <div class="div-loader">
+    <button class="button-load" type="button">Load more</button>
+    <span class="massege">We're sorry, but you've reached the end of search results.</span>
+    <span class="loader">Loading images, please wait...</span>
+    </div>
     <script type="module" src="./main.js"></script>
   </body>
 </html>
