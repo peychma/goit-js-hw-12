@@ -71,7 +71,6 @@ async function searchImages(query, page) {
     console.error("Error fetching images:", error);
     }
 }
-
 function showImages(images) {
     gallery.innerHTML = "";
     const galleryHTML = images.map(image => `<li class="gallery-item">
