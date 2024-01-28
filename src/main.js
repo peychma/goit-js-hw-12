@@ -12,6 +12,7 @@ const gallery = document.querySelector(".gallery");
 const massege = document.querySelector(".massege");
 const buttonLoad = document.querySelector(".button-load");
 let page = 1;
+let galleryHTML = "";
 const per_page = 40;
 let searchText = "";
 
@@ -32,8 +33,9 @@ galleryForm.addEventListener("submit", function (event) {
                 message: "Search string must be not less then 3 symbols.",
             });
     }
-
-    searchImages(searchText, 1);
+    page = 1;
+    galleryHTML = "";
+    searchImages(searchText, page);
     galleryForm.reset();
     return;
 });
@@ -44,7 +46,7 @@ async function searchImages(query, page) {
     try {
       const response = await axios.get(url);
       const data = response.data;
-      console.log(data);
+        console.log(data);
         loader.style.display = "none";
         buttonLoad.style.display = "none";
         massege.style.display = "none";
@@ -55,11 +57,6 @@ async function searchImages(query, page) {
                 massege.style.display = "block";
             }
             showImages(data.hits);
-            const cardHeight = document.querySelector(".gallery-item").getBoundingClientRect().height;
-            window.scrollBy({
-                top: cardHeight * 2,
-                behavior: "smooth",
-            });
         } else {
             gallery.innerHTML = "";
             iziToast.error({
@@ -67,13 +64,17 @@ async function searchImages(query, page) {
                 message: "Sorry, there are no images matching your search query. Please try again!",
             });
         }
-  } catch (error) {
+    } catch (error) {
+    iziToast.error({
+    title: "Error",
+    message: "Error fetching images: ${error}",
+    });
     console.error("Error fetching images:", error);
     }
 }
 function showImages(images) {
-    gallery.innerHTML = "";
-    const galleryHTML = images.map(image => `<li class="gallery-item">
+//gallery.innerHTML = "";
+    galleryHTML += images.map(image => `<li class="gallery-item">
       <a class="gallery-link" href="${image.largeImageURL}">
         <img class="gallery-image" src="${image.webformatURL}" alt="${image.tags}" />
       </a>
@@ -92,9 +93,13 @@ function showImages(images) {
     lightbox.refresh();
 }
 buttonLoad.addEventListener("click", function() {
-    console.log(111);
     loader.style.display = "block";
     page = page + 1;
+    const cardHeight = document.querySelector(".gallery-item").getBoundingClientRect().height;
+    window.scrollBy({
+    top: cardHeight * 2,
+    behavior: "smooth",
+    });
     searchImages(searchText, page);
     return;
 });
